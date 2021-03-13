@@ -17,13 +17,15 @@
           Home
         </router-link>
 
-        <a class="navbar-item">
+        <router-link :to="{name: 'PageMeetupFind'}" class="navbar-item">
           Find
-        </a>
+        </router-link>
+
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">
             More
           </a>
+
           <div class="navbar-dropdown">
             <a class="navbar-item">
               About
@@ -41,6 +43,7 @@
           </div>
         </div>
       </div>
+
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
@@ -56,9 +59,11 @@
     </div>
   </nav>
 </template>
+
 <script>
   export default {
   }
 </script>
+
 <style scoped>
 </style>

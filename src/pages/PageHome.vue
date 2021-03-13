@@ -7,28 +7,25 @@
         <h1 class="title is-inline">Featured Meetups in "Location"</h1>
         <AppDropdown />
         <button class="button is-primary is-pulled-right m-r-sm">Create Meetups</button>
-        <button class="button is-primary is-pulled-right m-r-sm">All</button>
+        <router-link :to="{name: 'PageMeetupFind'}"
+                     class="button is-primary is-pulled-right m-r-sm">
+                   All
+        </router-link>
       </div>
-      <div  class="row columns is-multiline">
-        <meetup-item v-for="meetup in meetups" :key="meetup._id" :meetup="meetup" />
+      <div class="row columns is-multiline">
+        <!-- Iterate your meetups here! -->
+        <MeetupItem v-for="meetup in meetups"
+                    :key="meetup._id"
+                    :meetup="meetup" />
       </div>
       </section>
       <section class="section">
         <div>
           <h1 class="title">Categories</h1>
           <div class="columns cover is-multiline is-mobile">
-            <!-- category -->
-            <category-item v-for="category in categories" 
-                            :key="category._id" 
-                            :category="category" /> 
-            <!-- end category -->
-            
-            
-           
-            
-            
-            
-            
+            <CategoryItem v-for="category in categories"
+                          :key="category._id"
+                          :category="category" />
           </div>
         </div>
       </section>
@@ -37,19 +34,18 @@
 </template>
 
 <script>
-   import axios from 'axios'
-   import CategoryItem from '@/components/CategoryItem'
-import MeetupItem from '../components/MeetupItem'
-
-   export default {
-     components: {
-       CategoryItem,
-       MeetupItem
-     },
-     data () {
-       return {
-         meetups: [],
-         categories: []
+  import axios from 'axios'
+  import CategoryItem from '@/components/CategoryItem'
+  import MeetupItem from '@/components/MeetupItem'
+  export default {
+    components: {
+      CategoryItem,
+      MeetupItem
+    },
+    data () {
+      return {
+        meetups: [],
+        categories: []
       }
     },
     created () {
@@ -63,8 +59,7 @@ import MeetupItem from '../components/MeetupItem'
         })
     }
   }
- </script>
+</script>
 
 <style scoped>
- 
 </style>
