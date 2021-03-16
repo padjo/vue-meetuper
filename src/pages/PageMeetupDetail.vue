@@ -4,7 +4,6 @@
       <div class="hero-body">
         <div class="container">
           <h2 class="subtitle">
-            //{meetup}
             {{meetup.startDate | formatDate}}
           </h2>
           <h1 class="title">
@@ -137,32 +136,25 @@
 </template>
 
 <script>
-  import { mapActions, mapState} from 'vuex'
+  import { mapActions, mapState } from 'vuex'
   export default {
     computed: {
-      meetup () {
-        return this.$store.state.meetup
-      },
-      threads () {
-        return this.$store.state.threads
-      },
+      ...mapState({
+        meetup: state => state.meetups.item,
+        threads: state => state.threads.items
+      }),
       meetupCreator () {
         return this.meetup.meetupCreator || {}
-      },
-      ...mapState({
-        meetup: state => state.meetup,
-        threads: state => state.threads
-      })
+      }
     },
     created () {
       const meetupId = this.$route.params.id
-      // this.$store.dispatch('fetchMeetupById', meetupId)
-      // this.$store.dispatch('fetchThreads', meetupId)
       this.fetchMeetupById(meetupId)
       this.fetchThreads(meetupId)
-    }, 
+    },
     methods: {
-      ...mapActions(['fetchMeetupById', 'fetchThreads'])
+      ...mapActions('meetups', ['fetchMeetupById']),
+      ...mapActions('threads', ['fetchThreads'])
     }
   }
 </script>

@@ -37,7 +37,7 @@
                 </div>
                 <div class="meetup-card-find-content-info">
                   <p class="title is-4 no-padding is-marginless m-b-xs">{{meetup.title}}</p>
-                  <span class="tag is-success m-b-xs">{{meetup.category.name | capitalise}}</span>
+                  <span class="tag is-success m-b-xs">{{meetup.category.name | capitalize}}</span>
                   <p class="subtitle is-7">{{meetup.location}}</p>
                 </div>
                 <div class="meetup-card-find-interest">
@@ -56,15 +56,14 @@
 </template>
 
 <script>
-  import axios from 'axios'
   export default {
     computed: {
-      meetups() {
-        return this.$store.state.meetups
+      meetups () {
+        return this.$store.state.meetups.items
       }
     },
     created () {
-      this.$store.dispatch('fetchMeetups')
+      this.$store.dispatch('meetups/fetchMeetups', '', {root: true})
     }
   }
 </script>
