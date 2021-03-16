@@ -137,6 +137,7 @@
 </template>
 
 <script>
+  import { mapActions, mapState} from 'vuex'
   export default {
     computed: {
       meetup () {
@@ -147,12 +148,21 @@
       },
       meetupCreator () {
         return this.meetup.meetupCreator || {}
-      }
+      },
+      ...mapState({
+        meetup: state => state.meetup,
+        threads: state => state.threads
+      })
     },
     created () {
       const meetupId = this.$route.params.id
-      this.$store.dispatch('fetchMeetupById', meetupId)
-      this.$store.dispatch('fetchThreads', meetupId)
+      // this.$store.dispatch('fetchMeetupById', meetupId)
+      // this.$store.dispatch('fetchThreads', meetupId)
+      this.fetchMeetupById(meetupId)
+      this.fetchThreads(meetupId)
+    }, 
+    methods: {
+      ...mapActions(['fetchMeetupById', 'fetchThreads'])
     }
   }
 </script>
