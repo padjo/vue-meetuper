@@ -1,80 +1,63 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
 import axios from 'axios'
-
 Vue.use(Vuex)
-
 export default new Vuex.Store({
-  //data we are sharing with our components
+  // In state we are keeping our data we are sharing with our components
   state: {
     meetups: [],
     categories: [],
     threads: [],
     meetup: {}
-
-  }, 
-  //like computed properties . simple functions working on state
-  getters: {
-    
-    
-
   },
-  // like component methods. they should not mutate state. good place to fetch data. 
-  // Usually results in data
+  // Getters are like computed properties. Simple functions to get a state
+  getters: {
+  },
+  // Actions are like methods in vue componenet. They should not mutate the state.
+  // Very good spot to fetch a data. Action call usualy should resolve into data.
   actions: {
-    fetchMeetups ({ state, commit }) {  // was context 
+    fetchMeetups ({state, commit}) {
+      commit('setItems', {resource: 'meetups', items: []}) // don't display prev state
       axios.get('/api/v1/meetups')
         .then(res => {
           const meetups = res.data
-          commit('setMeetups', meetups)
+          commit('setItems', {resource: 'meetups', items: meetups})
           return state.meetups
-        
         })
     },
-    fetchCategories ({ state, commit}) {
+    fetchCategories ({state, commit}) {
       axios.get('/api/v1/categories')
         .then(res => {
           const categories = res.data
-          commit('setCategories', categories)
+          commit('setItems', {resource: 'categories', items: categories})
           return state.categories
         })
     },
-
-    fetchMeetupById ({ state, commit}, meetupId ) {
+    fetchMeetupById ({state, commit}, meetupId) {
+      commit('setItem', {resource: 'meetup', item: {}}) // render an empty object until //new  meetup state comes from the fake db
       axios.get(`/api/v1/meetups/${meetupId}`)
         .then(res => {
           const meetup = res.data
-          commit('setMeetup', meetup)
+          commit('setItem', {resource: 'meetup', item: meetup})
           return state.meetup
         })
     },
-    fetchThreads ({ state, commit}, meetupId ) {
+    fetchThreads ({state, commit}, meetupId) {
       axios.get(`/api/v1/threads?meetupId=${meetupId}`)
         .then(res => {
           const threads = res.data
-          commit('setThreads', threads)
+          commit('setItems', {resource: 'threads', items: threads})
           return state.threads
         })
     }
-
   },
-  // functions that mutate state
+  // Simple functions to mutate a state
   mutations: {
-    setMeetups (state, meetups) {
-        state.meetups = meetups
-
+    setItems (state, {resource, items}) {
+      state[resource] = items
     },
-    setCategories (state, categories) {
-      state.categories = categories
-
-    },
-    setMeetup (state, meetup) {
-      state.meetup = meetup
-    },
-     setThreads (state, threads) {
-      state.threads = threads
+    setItem (state, {resource, item}) {
+      state[resource] = item
     }
-
   }
 })

@@ -4,6 +4,7 @@
       <div class="hero-body">
         <div class="container">
           <h2 class="subtitle">
+            //{meetup}
             {{meetup.startDate | formatDate}}
           </h2>
           <h1 class="title">
@@ -134,26 +135,28 @@
     </section>
   </div>
 </template>
+
 <script>
   export default {
+    computed: {
+      meetup () {
+        return this.$store.state.meetup
+      },
+      threads () {
+        return this.$store.state.threads
+      },
+      meetupCreator () {
+        return this.meetup.meetupCreator || {}
+      }
+    },
     created () {
       const meetupId = this.$route.params.id
       this.$store.dispatch('fetchMeetupById', meetupId)
       this.$store.dispatch('fetchThreads', meetupId)
-    },
-    computed: {
-      meetupCreator () {
-        return this.meetup.meetupCreator || ''
-      },
-      meetup () {
-       return this.$store.state.meetup
-      },
-      threads () {
-       return this.$store.state.threads
-      }
     }
   }
 </script>
+
 <style scoped lang="scss">
   .tag.is-warning {
     opacity: 0.5;
@@ -169,3 +172,103 @@
       background-size: cover;
       background-repeat: no-repeat;
       background-attachment: fixed;
+        > p,h1,h2, strong {
+          color: white;
+        }
+      }
+    .meetup-side-box {
+      background-color: white;
+      border-radius: 10px;
+      font-size: 16px;
+      padding: 15px;
+    }
+  }
+  pre,
+  .message {
+    max-width: 960px;
+  }
+  .v-center {
+    align-items: center;
+  }
+  li {margin: 10px}
+  .hero.is-primary {
+  background: linear-gradient(to top right, #524ad0 10%, #D099FA);
+  }
+  .box {
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+  }
+  .box span.icon {
+    float: right;
+    font-size: 1.7em;
+    padding: 2rem 2rem 0 0;
+  }
+  .is-large.fab {
+    font-size: 7em;
+  }
+  .is-large.fas {
+    font-size: 5em;
+    margin-left: 0.2em;
+  }
+  .media-content {overflow: hidden;}
+  .menu-list li a:hover {
+    background: #d9d9d9;
+  }
+  .token.number {
+    display: inline;
+    padding: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    text-align: inherit;
+    vertical-align: inherit;
+    border-radius: inherit;
+    font-weight: inherit;
+    white-space: inherit;
+    background: inherit;
+    margin: inherit;
+  }
+  .footer {background-color: white;}
+  // Post Create Input START
+  .textarea-post {
+    padding-bottom: 30px;
+  }
+  .post-create {
+    margin-bottom: 15px;
+  }
+  // Post Create END
+  // Thread List START
+  .content {
+    figure {
+      margin-bottom: 0;
+    }
+  }
+  .media-content-threads {
+    background-color: #f1f1f1;
+    padding: 3px 20px;
+    border-radius: 10px;
+    margin-right: 40px;
+    width: 100px;
+  }
+  .media-left.user-image {
+    margin: 0;
+    margin-right: 15px;
+  }
+  .post-item {
+  }
+  .media + .media {
+    border: none;
+    margin-top: 0;
+  }
+  .post-content {
+    margin: 0;
+    &-message {
+      font-size: 16px;
+    }
+    .author {
+      font-size: 18px;
+    }
+    .post-time {
+      font-size: 16px;
+    }
+  }
+  // Thread List END
+</style>
